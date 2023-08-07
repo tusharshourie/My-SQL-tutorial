@@ -1,0 +1,137 @@
+CREATE DATABASE temp;
+
+USE temp;
+
+CREATE TABLE student(
+id INT PRIMARY KEY,
+name VARCHAR(255)
+);
+
+INSERT INTO student VALUES (1, 'Tushar');
+
+SELECT * FROM student;
+
+USE org;
+
+USE org;
+CREATE TABLE Worker (
+    WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    F_NAME CHAR(25),
+    L_NAME CHAR(25),
+    SALARY INT,
+    JOIN_DATE DATETIME,
+    DEPT CHAR(25)
+);
+
+INSERT INTO Worker (F_NAME, L_NAME, SALARY, JOIN_DATE, DEPT)
+VALUES
+    ('John', 'Doe', 5000, '2022-01-01 09:00:00', 'HR'),
+    ('Jane', 'Smith', 6000, '2022-02-15 12:30:00', 'Sales'),
+    ('Michael', 'Johnson', 5500, '2022-03-20 10:15:00', 'IT'),
+    ('Emily', 'Davis', 7000, '2022-04-10 08:45:00', 'Finance'),
+    ('David', 'Wilson', 4500, '2022-05-05 11:00:00', 'HR'),
+    ('Sarah', 'Brown', 6500, '2022-06-25 14:20:00', 'Sales'),
+    ('Daniel', 'Anderson', 6000, '2022-07-12 13:00:00', 'IT'),
+    ('Olivia', 'Martinez', 5500, '2022-08-18 10:30:00', 'Finance'),
+    ('James', 'Taylor', 5000, '2022-09-05 09:15:00', 'HR'),
+    ('Sophia', 'Thomas', 7000, '2022-10-30 08:00:00', 'Sales');
+
+
+CREATE TABLE Bonus(
+WORKER_REF_ID INT,
+BONUS_AMT INT,
+BONUS_DATE DATETIME,
+FOREIGN KEY (WORKER_REF_ID)
+	REFERENCES Worker(WORKER_ID)
+    ON DELETE CASCADE
+    );
+    
+INSERT INTO Bonus (WORKER_REF_ID, BONUS_AMT, BONUS_DATE)
+VALUES
+    (001, 5000, '2023-01-15 13:30:00'),
+    (2, 1500, '2023-02-28 11:45:00'),
+    (3, 1200, '2023-03-18 10:00:00'),
+    (4, 2000, '2023-04-05 09:15:00'),
+    (5, 800, '2023-05-10 14:00:00'),
+    (6, 1700, '2023-06-20 12:30:00'),
+    (7, 1400, '2023-07-05 11:00:00'),
+    (8, 1100, '2023-08-22 09:45:00'),
+    (9, 1800, '2023-09-10 15:15:00'),
+    (10, 1300, '2023-10-25 13:00:00');
+
+SELECT * FROM Bonus;
+
+CREATE TABLE Title (
+    WORKER_REF_ID INT,
+    WORKER_TITLE CHAR(25),
+    AFFECTED_FROM DATETIME,
+    FOREIGN KEY (WORKER_REF_ID)
+        REFERENCES Worker(WORKER_ID)
+        ON DELETE CASCADE
+);
+
+INSERT INTO Title (WORKER_REF_ID, WORKER_TITLE, AFFECTED_FROM)
+VALUES
+    (1, 'Manager', '2022-01-01 09:00:00'),
+    (2, 'Supervisor', '2022-02-15 12:30:00'),
+    (3, 'Engineer', '2022-03-20 10:15:00'),
+    (4, 'Analyst', '2022-04-10 08:45:00'),
+    (5, 'HR Specialist', '2022-05-05 11:00:00'),
+    (6, 'Sales Representative', '2022-06-25 14:20:00'),
+    (7, 'IT Manager', '2022-07-12 13:00:00'),
+    (8, 'Finance Analyst', '2022-08-18 10:30:00'),
+    (9, 'Assistant Manager', '2022-09-05 09:15:00'),
+    (10, 'Senior Sales Repr', '2022-10-30 08:00:00');
+
+SELECT * FROM Title;
+
+
+USE org;
+SELECT * FROM Title;
+
+SELECT * FROM Worker WHERE SALARY>6000;
+
+SELECT * FROM Worker WHERE DEPT = 'Sales';
+
+SELECT * FROM Worker WHERE SALARY BETWEEN 5000 AND 6000;
+
+SELECT * FROM Worker WHERE DEPT = 'HR' OR DEPT = 'Finance';
+
+-- IN keyword
+
+SELECT * FROM Worker WHERE DEPT IN ('Finance', 'HR');
+
+
+SELECT * FROM Worker WHERE DEPT NOT IN ('Finance', 'HR');
+
+-- WILDCARD
+SELECT * FROM Worker WHERE F_NAME LIKE '%an%';
+
+-- SORTING USING ORDER BY
+SELECT * FROM Worker ORDER BY SALARY DESC;
+SELECT * FROM Worker ORDER BY SALARY ASC;
+SELECT * FROM Worker ORDER BY SALARY;
+
+-- DISTINCT KEYWORD
+SELECT DISTINCT DEPT FROM Worker;
+
+-- Data Grouping
+SELECT DEPT, count(*) FROM Worker group by DEPT;
+
+-- AVG SALARY PER DEPT
+SELECT DEPT, AVG(SALARY) FROM Worker GROUP BY DEPT;
+
+-- MIN SALARY PER DEPT
+SELECT DEPT, MIN(SALARY) FROM Worker GROUP BY DEPT;
+
+-- MAX SALARY PER DEPT
+SELECT DEPT, MAX(SALARY) FROM Worker GROUP BY DEPT;
+
+-- TOTAL SAL PER DEPT
+SELECT DEPT, SUM(SALARY) FROM Worker GROUP BY DEPT;
+
+-- GROUP BY HAVING
+-- DEPT, COUNT HAVING MORE THAN 3 WORKERS
+SELECT DEPT, COUNT(DEPT) FROM WORKER GROUP BY DEPT HAVING COUNT(DEPT)>2;
+
+-
